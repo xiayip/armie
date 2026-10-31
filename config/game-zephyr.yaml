@@ -1,0 +1,71 @@
+# Full Zephyr payload. User-requested temporary front pose (radians).
+# Motion still requires explicit launch flags; starts paused.
+armie_game:
+  ros__parameters:
+    motion_backend: mock
+    motion_enabled: false
+    front_pose_json: '[-0.157, 0.2, 0.2, 0.0, 0.0, 0.0]'
+    motion_limit_scale: 1.5
+    pose_transition_speed_scale: 4.0
+    settled_position_tolerance: [0.03, 0.03, 0.04, 0.04, 0.03, 0.03]
+    dance_amplitude_scale: 1.0
+    dance_speed_scale: 1.6
+    table_pose_json: '[]'
+    calibration_file: /workspaces/zephyr-dev/zephyr_ws/armie_zephyr_calibration.json
+    mock_step_sec: 0.3
+    face_duration_sec: 18.0
+    ball_duration_sec: 0.0
+    ball_wait_for_target: true
+    ball_still_sec: 3.0
+    ball_follow_only: false
+    ball_full_sequence: true
+    # Explicit nominal-TCP trial; collision/freshness checks still mandatory.
+    allow_nominal_tcp_trial: true
+    grasp_table_object: armie_observed_table
+    ball_controller: position
+    ball_velocity_feedforward: true
+    ball_tracking_gain: 2.0
+    ball_tracking_speed: 0.9
+    ball_tracking_acceleration: 1.5
+    ball_prediction_enabled: true
+    ball_prediction_lead_sec: 0.04
+    servo_commissioned: false
+    ball_servo_commissioned: true
+    yaw_direction: -1.0
+    pitch_direction: -1.0
+    dock_roi_json: '[-0.2,-0.2,0.2,0.2]'
+    grasp_enabled: true
+    grasp_path_json: '[]'
+    gripper_enabled: true
+    gripper_open_only: false
+    gripper_action: /zephyr_arm_gripper_controller/gripper_cmd
+    gripper_joint: omni_picker_finger_joint
+    # Grasp verdict after lift: finger must stop in [min, empty) AND the camera must
+    # no longer see the ball at its table spot. Uncalibrated for the real ball size.
+    grasp_verify_sec: 1.0
+    grasp_show_sec: 1.5
+    grasp_empty_finger_position: 0.92
+    grasp_min_finger_position: 0.1
+    trajectory_action: /zephyr_arm_impedance_trajectory_controller/follow_joint_trajectory
+    controller_manager: /controller_manager
+    required_guard_node: /zephyr_arm_impedance_trajectory_guard
+    controller_prefix: zephyr_arm
+    required_controllers:
+    - zephyr_arm_mit_controller
+    - zephyr_arm_impedance_controller
+    - zephyr_arm_impedance_trajectory_controller
+armie_senses:
+  ros__parameters:
+    senses_backend: mock
+    image_topic: /camera/color/image_raw/compressed
+    gesture_model_path: /workspaces/zephyr-dev/zephyr_ws/.armie-runtime/models/gesture_recognizer.task
+    ball_detector: template
+    ball_template_path: /workspaces/zephyr-dev/zephyr_ws/src/armie/config/rope-ball-template.png
+    ball_hsv_low:
+    - 5
+    - 100
+    - 80
+    ball_hsv_high:
+    - 30
+    - 255
+    - 255

@@ -1,0 +1,32 @@
+armie_pet:
+  ros__parameters:
+    motion_backend: mock
+    motion_enabled: false
+    trajectory_action: /rebot_arm_rs_impedance_trajectory_controller/follow_joint_trajectory
+    controller_manager: /controller_manager
+    joint_states_topic: /joint_states
+    required_guard_node: /rebot_arm_rs_impedance_trajectory_guard
+    required_controllers:
+      - rebot_arm_rs_mit_controller
+      - rebot_arm_rs_impedance_controller
+      - rebot_arm_rs_impedance_trajectory_controller
+    motion_timeout_sec: 12.0
+    bt_action: /behavior_server
+    bt_trees_json: '{}'
+    idle_sleep_sec: 60.0
+armie_vision:
+  ros__parameters:
+    vision_backend: mock
+    image_topic: /camera/color/image_raw/compressed
+    image_max_age_sec: 2.0
+    image_max_edge: 640
+    look_cooldown_sec: 1.0
+    vlm_endpoint: ''
+    vlm_model: ''
+    vlm_api_key_env: ARMIE_VLM_API_KEY
+    vlm_timeout_sec: 8.0
+armie_hmi:
+  ros__parameters:
+    hmi_transport: mock
+    hmi_udp_host: 127.0.0.1
+    hmi_udp_port: 8766
